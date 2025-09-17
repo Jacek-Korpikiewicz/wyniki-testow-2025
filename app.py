@@ -19,6 +19,8 @@ def load_data():
         df = pd.read_csv('wyniki_testow_fixed.csv')
         # Filter for Warsaw only
         warsaw_df = df[df['powiat - nazwa'] == 'Warszawa'].copy()
+        # Filter out "nie dotyczy" schools
+        warsaw_df = warsaw_df[warsaw_df['rodzaj placówki\n'] != 'nie dotyczy'].copy()
         return warsaw_df
     except FileNotFoundError:
         st.error("❌ File 'wyniki_testow_fixed.csv' not found. Please make sure the file is in the same directory as this app.")
@@ -67,6 +69,18 @@ def main():
         return
     
     st.info(f"📊 Dane dla {len(df)} szkół w Warszawie")
+    
+    # Public/Private school filter
+    include_private = st.checkbox(
+        "Uwzględnij szkoły niepubliczne",
+        value=False,
+        help="Zaznacz aby uwzględnić szkoły niepubliczne w analizie"
+    )
+    
+    # Apply public/private filter
+    if not include_private:
+        df = df[df['czy publiczna'] == 'Tak'].copy()
+        st.info(f"📊 Po filtracji: {len(df)} szkół publicznych")
     
     # Metric selection
     metric_choice = st.radio(
