@@ -33,7 +33,7 @@ def create_histogram(data, selected_value, title, x_label, y_label="Liczba szkó
     fig = px.histogram(
         data, 
         x=title.lower().replace(' ', '_'),
-        nbins=20,
+        nbins=int(data[title.lower().replace(' ', '_')].max() - data[title.lower().replace(' ', '_')].min() + 1),
         title=f"Rozkład {title} - wszystkie szkoły w Warszawie",
         labels={title.lower().replace(' ', '_'): x_label, 'count': y_label},
         color_discrete_sequence=['lightblue']
@@ -295,7 +295,7 @@ def main():
         fig = px.histogram(
             df, 
             x='artificial_score',
-            nbins=20,
+            nbins=int(df['artificial_score'].max() - df['artificial_score'].min() + 1),
             title=f"Rozkład wyniku łącznego ({metric_choice.lower()}) - wszystkie szkoły w Warszawie",
             labels={'artificial_score': 'Wynik łączny', 'count': 'Liczba szkół'},
             color_discrete_sequence=['lightgreen']
