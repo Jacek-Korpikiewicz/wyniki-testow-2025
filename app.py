@@ -80,7 +80,7 @@ def main():
     # Apply public/private filter
     if not include_private:
         df = df[df['czy publiczna'] == 'Tak'].copy()
-        st.info(f"📊 Po filtracji: {len(df)} szkół publicznych")
+        st.info(f"📊 Po filtrowaniu: {len(df)} szkół publicznych")
     
     # Metric selection
     metric_choice = st.radio(
